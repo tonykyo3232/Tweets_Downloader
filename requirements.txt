@@ -6,3 +6,4 @@ numpy
 pandas
 regex==2021.4.4
 pyrebase
+textblob

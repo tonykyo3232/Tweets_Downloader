@@ -3,6 +3,7 @@ Provides functionalities for analyzing and categorizing content from tweets.
 """
 from io import StringIO
 from io import BytesIO
+from textblob import TextBlob
 
 import numpy as np
 import pandas as pd               # to be able to store data in data frame
@@ -74,6 +75,46 @@ class TweetAnalyzer():
         # print("============\n\n")
 
         return cleaned_text
+
+
+    '''
+    save the tweets to data frame of: tweet, id, len, date, source, likes, retweets
+    '''
+    def tweets_to_data_frame4(self, tweets):
+
+        # extract the texts from each of those tweets
+        df = pd.DataFrame(data=[self.clean_tweet(tweet.full_text) for tweet in tweets], columns=['tweets'])
+
+        # id
+        df['id'] = np.array([tweet.id for tweet in tweets]) 
+        
+        # length
+        df['len'] = np.array([len(tweet.full_text) for tweet in tweets])
+       
+        # date
+        df['date'] = np.array([tweet.created_at for tweet in tweets])
+        
+        # source
+        df['source'] = np.array([tweet.source for tweet in tweets])
+        
+        # number of likes
+        df['likes'] = np.array([tweet.favorite_count for tweet in tweets])
+        
+        # number of retweet
+        df['retweets'] = np.array([tweet.retweet_count for tweet in tweets])
+
+        result = self.sentiment_tweet(df)
+
+        #
+        df['polarity'] = pd.DataFrame(result[0], columns=['polarity'])
+
+        #
+        df['sentiment'] = pd.DataFrame(result[1], columns=['sentiment'])
+
+        #
+        df['companies'] = pd.DataFrame(result[2], columns=['companies'])
+
+        return df
 
     '''
     save the tweets to data frame of: tweet, date, source, likes, retweets
@@ -223,3 +264,85 @@ class TweetAnalyzer():
         path_on_cloud = "csv/" + self.get_filename() + ".csv"
         path_local = file
         storage.child(path_on_cloud).put(path_local)
+
+    '''
+    doing the sentiment analysis of the tweets. It will categorized the tweets into group of positive, netural and negative
+    '''
+    def sentiment_tweet(self, df):
+        
+        tweets = df['tweets']
+
+        sentiment_list = []
+        polarity_list = []
+        company_list = []
+
+        # iterating through tweets fetched
+        for tweet in tweets:
+
+            # clean the junk message
+            analysis = TextBlob(self.clean_tweet(tweet))
+
+            companies = self.detect_companies(tweet)
+
+            # neutral
+            if (analysis.sentiment.polarity == 0):
+                polarity_list.append(analysis.sentiment.polarity)
+                sentiment_list.append('neutral')
+            # wpositive
+            elif (analysis.sentiment.polarity > 0 and analysis.sentiment.polarity <= 0.3):
+                polarity_list.append(analysis.sentiment.polarity)
+                sentiment_list.append('wpositive')
+            # positive
+            elif (analysis.sentiment.polarity > 0.3 and analysis.sentiment.polarity <= 0.6):
+                polarity_list.append(analysis.sentiment.polarity)
+                sentiment_list.append('positive')
+            # spositive
+            elif (analysis.sentiment.polarity > 0.6 and analysis.sentiment.polarity <= 1):
+                polarity_list.append(analysis.sentiment.polarity)
+                sentiment_list.append('spositive')
+            # wnegative
+            elif (analysis.sentiment.polarity > -0.3 and analysis.sentiment.polarity <= 0):
+                polarity_list.append(analysis.sentiment.polarity)
+                sentiment_list.append('wnegative')
+            # negative
+            elif (analysis.sentiment.polarity > -0.6 and analysis.sentiment.polarity <= -0.3):
+                polarity_list.append(analysis.sentiment.polarity)
+                sentiment_list.append('negative')
+            # snegative
+            elif (analysis.sentiment.polarity > -1 and analysis.sentiment.polarity <= -0.6):
+                polarity_list.append(analysis.sentiment.polarity)
+                sentiment_list.append('snegative')
+
+            company_list.append(companies)
+
+        return (polarity_list, sentiment_list, company_list)
+        # return (polarity_list, sentiment_list)
+
+
+    '''
+    check if tweets contains any company's name from the dictionary fron company_list.py
+    '''
+    def detect_companies(self, tweet):
+        
+        company_names = company_list.companies.keys()
+
+        # create an empty dictionary
+        result = ''
+
+        #split each tweet into a list of words
+        words = tweet.split()
+
+        for word in words:
+            if word in company_names:
+                if(word not in result):
+                    # print("found key word: [" + word + "]")
+                    curr = word + ", "
+                    result = result + curr
+
+
+        if(len(result) == 0):
+            result += 'None'
+        else:
+            result = result[:-2] # remove ',' at the end
+
+        return result

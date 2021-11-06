@@ -10,7 +10,7 @@ def get_twitter_feed():
 
     x = 'jimcramer'
     y = 200
-    
+
     # twitter api only allows us to download 200 tweets at one time
     tweets = api.user_timeline(screen_name=x, count=y, tweet_mode='extended')
 
@@ -18,7 +18,7 @@ def get_twitter_feed():
 
     tweet_analyzer.set_num_of_tweets(y)
 
-    df = tweet_analyzer.tweets_to_data_frame3(tweets)
+    df = tweet_analyzer.tweets_to_data_frame4(tweets)
 
     # upload the file to firebase
     tweet_analyzer.upload_fire_base(df)
