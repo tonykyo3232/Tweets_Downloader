@@ -17,3 +17,5 @@
 - polarity
 - sentiment status
 - companies
+
+### after download these .csv files, it will be uploaded to [Google Firebase](https://firebase.google.com/)

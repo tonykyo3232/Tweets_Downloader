@@ -238,14 +238,15 @@ class TweetAnalyzer():
     # https://www.programcreek.com/python/example/120344/pandas.compat.BytesIO
     def upload_fire_base(self, df):
 
+        # please enter your own cofig data
         config = {
-          "apiKey": "AIzaSyCHRiXMyleftC-0aBbPxRsRvS5fJzdJLwQ",
-          "authDomain": "tweet-data-analysis.firebaseapp.com",
-          "projectId": "tweet-data-analysis",
-          "storageBucket": "tweet-data-analysis.appspot.com",
-          "messagingSenderId": "1054727249881",
-          "appId": "1:1054727249881:web:5bd4d4778d54ea37c2c3c8",
-          "measurementId": "G-ZKDSEPF00E",
+          "apiKey": "",
+          "authDomain": "",
+          "projectId": "",
+          "storageBucket": "",
+          "messagingSenderId": "",
+          "appId": "",
+          "measurementId": "",
           "databaseURL": ""
         }
 
