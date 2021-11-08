@@ -18,8 +18,8 @@ app = Flask(__name__)
 @app.route('/')
 # ‘/’ URL is bound with get_twitter_feed() function.
 def run_py_file():
-	main.get_twitter_feed()
-	return "The 200 tweets has downloaded."
+	main.main()
+	return "The 1500 tweets has downloaded."
  
 # main driver function
 if __name__ == '__main__':

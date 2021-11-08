@@ -1,18 +1,12 @@
 from twitter_client import TwitterClient
 from tweet_analyzer import TweetAnalyzer
 
-def get_twitter_feed():
+def get_twitter_feed(x, y):
 
     twitter_client = TwitterClient()
     tweet_analyzer = TweetAnalyzer()
 
-    api = twitter_client.get_twitter_client_api()
-
-    x = 'jimcramer'
-    y = 200
-
-    # twitter api only allows us to download 200 tweets at one time
-    tweets = api.user_timeline(screen_name=x, count=y, tweet_mode='extended')
+    tweets = twitter_client.get_user_timeline_tweets(x,y)
 
     tweet_analyzer.set_account(x)
 
@@ -23,4 +17,8 @@ def get_twitter_feed():
     # upload the file to firebase
     tweet_analyzer.upload_fire_base(df)
 
-get_twitter_feed()
+def main():
+
+    get_twitter_feed('Stocktwits', 1500)
+
+main()

@@ -261,7 +261,7 @@ class TweetAnalyzer():
 
         file = buf
 
-        path_on_cloud = "csv/" + self.get_filename() + ".csv"
+        path_on_cloud = self.get_account() + "/downloaded_tweets/" + self.get_filename() + ".csv"
         path_local = file
         storage.child(path_on_cloud).put(path_local)
 
@@ -316,7 +316,6 @@ class TweetAnalyzer():
             company_list.append(companies)
 
         return (polarity_list, sentiment_list, company_list)
-        # return (polarity_list, sentiment_list)
 
 
     '''

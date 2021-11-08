@@ -1,10 +1,12 @@
 ## Helper module from project [Twitter Data Analysis](https://github.com/tonykyo3232/Tweet_Data_Analysis)
-- Download 200 cleaned tweets from Jim Cramer's Twitter account daily
+- Download 1500 cleaned tweets from Twitter accounts daily
+- [@jimcramer](https://twitter.com/jimcramer?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor)
+- [@YahooFinance](https://twitter.com/YahooFinance)
+- [@Stocktwits](https://twitter.com/Stocktwits)
 
 ### It is currently deplyed in flask app though [HeroKu](heroku.com).
 
-* In csv file, it includes:
-
+#### In csv file, it includes:
 - cleaned version of the tweets
 - tweet id
 - tweet length

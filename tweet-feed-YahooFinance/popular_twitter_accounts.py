@@ -10,5 +10,6 @@ accounts = {
 	'LizAnnSonders': 'Liz Ann Sonders',
 	'Charlie Bilello': 'charliebilello',
 	'Earnings Whispers': 'eWhispers',
-	'Jim Cramer': 'jimcramer'
+	'Jim Cramer': 'jimcramer',
+	'Yahoo Finance': 'YahooFinance'
 	}
